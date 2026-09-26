@@ -18,7 +18,16 @@ Card details are entered only on Stripe's hosted payment page. They never touch 
 
 ## 1. Try it on your computer
 
-You need [Node.js](https://nodejs.org) version 20 or newer.
+**Quickest way (no setup):** install [Node.js](https://nodejs.org) (the LTS version), open a terminal in this folder, and run:
+
+```bash
+npm install
+npm run demo
+```
+
+Open http://localhost:3000 and log in as `owner@demo.local` with password `demo-password`. Checkout completes without charging anyone. Demo data is kept in the `demo-data` folder; delete it to start fresh.
+
+**With your own settings:** you need [Node.js](https://nodejs.org) version 20 or newer.
 
 ```bash
 npm install
