@@ -1,0 +1,40 @@
+<%- include('../partials/header') %>
+<div class="admin-head">
+  <h1>Admin</h1>
+  <div class="actions">
+    <a class="btn" href="/admin/artworks/new">+ Add artwork</a>
+    <a class="btn secondary" href="/admin/orders">Orders<% if (toShip) { %> (<%= toShip %> to ship)<% } %></a>
+  </div>
+</div>
+<div class="stats">
+  <div><span><%= artworks.length %></span>artworks</div>
+  <div><span><%= stats.orders %></span>paid orders</div>
+  <div><span><%= formatPrice(stats.revenue) %></span>total sales</div>
+</div>
+
+<% if (!artworks.length) { %>
+  <p class="empty">No artwork yet. <a href="/admin/artworks/new">Upload the first piece</a>.</p>
+<% } else { %>
+<table class="table">
+  <thead><tr><th>Artwork</th><th>Price</th><th>Available</th><th>Visible</th><th></th></tr></thead>
+  <tbody>
+  <% artworks.forEach(function (a) { %>
+    <tr>
+      <td class="item"><img src="/uploads/<%= a.image %>" alt=""><%= a.title %></td>
+      <td><%= formatPrice(a.price_minor) %></td>
+      <td><%= a.stock > 0 ? a.stock : 'Sold' %></td>
+      <td><%= a.is_published ? 'Yes' : 'Hidden' %></td>
+      <td class="row-actions">
+        <a href="/admin/artworks/<%= a.id %>/edit">Edit</a>
+        <form method="post" action="/admin/artworks/<%= a.id %>/delete" class="inline" data-confirm="Delete this artwork permanently?">
+          <input type="hidden" name="_csrf" value="<%= csrf() %>">
+          <button class="link danger">Delete</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+<% } %>
+<script src="/static/admin.js"></script>
+<%- include('../partials/footer') %>

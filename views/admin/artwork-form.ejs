@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+<p><a href="/admin">&larr; Back to admin</a></p>
+<h1><%= art ? 'Edit artwork' : 'Add artwork' %></h1>
+<form method="post" action="<%= art ? '/admin/artworks/' + art.id : '/admin/artworks' %>" enctype="multipart/form-data" class="form wide">
+  <input type="hidden" name="_csrf" value="<%= csrf() %>">
+  <label>Picture <% if (art) { %><small>(leave empty to keep the current one)</small><% } %>
+    <input type="file" name="image" accept="image/jpeg,image/png,image/webp,image/gif" <%= art ? '' : 'required' %>>
+  </label>
+  <% if (art) { %><img class="preview" src="/uploads/<%= art.image %>" alt=""><% } %>
+  <label>Title <input type="text" name="title" value="<%= form.title || '' %>" required maxlength="200"></label>
+  <label>Description <textarea name="description" rows="5" maxlength="5000"><%= form.description || '' %></textarea></label>
+  <div class="row">
+    <label>Medium <input type="text" name="medium" value="<%= form.medium || '' %>" placeholder="e.g. Watercolor on paper"></label>
+    <label>Size <input type="text" name="dimensions" value="<%= form.dimensions || '' %>" placeholder="e.g. 30 x 40 cm"></label>
+  </div>
+  <div class="row">
+    <label>Price (<%= currencyCode %>) <input type="text" name="price" value="<%= form.price || '' %>" inputmode="decimal" required placeholder="45.00"></label>
+    <label>Quantity available <input type="number" name="stock" value="<%= form.stock %>" min="0" required><small>Use 1 for an original; more for prints</small></label>
+  </div>
+  <label class="check"><input type="checkbox" name="is_published" <%= form.is_published ? 'checked' : '' %>> Show in the gallery</label>
+  <button class="btn"><%= art ? 'Save changes' : 'Add artwork' %></button>
+</form>
+<%- include('../partials/footer') %>

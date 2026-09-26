@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+<p><a href="/admin">&larr; Back to admin</a></p>
+<h1>Orders</h1>
+<% if (!orders.length) { %>
+  <p class="empty">No orders yet.</p>
+<% } else { %>
+<table class="table">
+  <thead><tr><th>Order</th><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+  <tbody>
+  <% orders.forEach(function (o) { %>
+    <tr>
+      <td><a href="/admin/orders/<%= o.id %>">#<%= o.id %></a></td>
+      <td><%= o.created_at.slice(0, 10) %></td>
+      <td><%= o.customer_name %><br><small><%= o.email %></small></td>
+      <td><%= o.titles %></td>
+      <td><%= formatPrice(o.total_minor, o.currency) %></td>
+      <td><span class="status status-<%= o.status %>"><%= o.status %></span></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+<% } %>
+<%- include('../partials/footer') %>

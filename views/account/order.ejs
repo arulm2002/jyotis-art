@@ -1,0 +1,11 @@
+<%- include('../partials/header') %>
+<% if (isNew && order.status === 'paid') { %>
+  <div class="flash flash-success">Thank you for your purchase! Your payment was received and your order is confirmed.</div>
+<% } else if (isNew && order.status === 'pending') { %>
+  <div class="flash flash-info">We're waiting for your payment to be confirmed. Refresh this page in a minute.</div>
+<% } %>
+<p><a href="/account/orders">&larr; My orders</a></p>
+<h1>Order #<%= order.id %> <span class="status status-<%= order.status %>"><%= order.status %></span></h1>
+<p>Placed on <%= order.created_at.slice(0, 10) %></p>
+<%- include('../partials/order-detail', { order: order }) %>
+<%- include('../partials/footer') %>

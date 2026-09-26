@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+<section class="hero">
+  <h1>Original art by <%= site.artist %></h1>
+  <p>Every piece is handmade. Browse the gallery and bring one home.</p>
+</section>
+
+<% if (!artworks.length) { %>
+  <p class="empty">New artwork is coming soon. Please check back!</p>
+<% } else { %>
+<div class="grid">
+  <% artworks.forEach(function (a) { %>
+    <a class="card" href="/art/<%= a.id %>">
+      <div class="thumb">
+        <img src="/uploads/<%= a.image %>" alt="<%= a.title %>" loading="lazy">
+        <% if (a.stock <= 0) { %><span class="sold">Sold</span><% } %>
+      </div>
+      <div class="card-body">
+        <h3><%= a.title %></h3>
+        <span class="price"><%= formatPrice(a.price_minor) %></span>
+      </div>
+    </a>
+  <% }) %>
+</div>
+<% } %>
+<%- include('partials/footer') %>

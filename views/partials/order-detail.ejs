@@ -1,0 +1,25 @@
+<table class="table">
+  <thead><tr><th>Artwork</th><th>Price</th><th>Qty</th><th>Total</th></tr></thead>
+  <tbody>
+  <% order.items.forEach(function (i) { %>
+    <tr>
+      <td class="item"><% if (i.image) { %><img src="/uploads/<%= i.image %>" alt=""><% } %><%= i.title %></td>
+      <td><%= formatPrice(i.price_minor, order.currency) %></td>
+      <td><%= i.quantity %></td>
+      <td><%= formatPrice(i.price_minor * i.quantity, order.currency) %></td>
+    </tr>
+  <% }) %>
+  </tbody>
+  <tfoot><tr><th colspan="3">Total</th><th><%= formatPrice(order.total_minor, order.currency) %></th></tr></tfoot>
+</table>
+<% if (order.shipping_name || order.address) { %>
+  <h3>Shipping to</h3>
+  <address>
+    <%= order.shipping_name || '' %><br>
+    <% if (order.address) { var a = order.address; %>
+      <%= a.line1 || '' %><% if (a.line2) { %>, <%= a.line2 %><% } %><br>
+      <%= [a.city, a.state, a.postal_code].filter(Boolean).join(', ') %><br>
+      <%= a.country || '' %>
+    <% } %>
+  </address>
+<% } %>

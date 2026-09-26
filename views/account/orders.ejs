@@ -1,0 +1,20 @@
+<%- include('../partials/header') %>
+<h1>My orders</h1>
+<% if (!orders.length) { %>
+  <p class="empty">You haven't placed any orders yet. <a href="/">Browse the gallery</a>.</p>
+<% } else { %>
+  <table class="table">
+    <thead><tr><th>Order</th><th>Date</th><th>Status</th><th>Total</th></tr></thead>
+    <tbody>
+    <% orders.forEach(function (o) { %>
+      <tr>
+        <td><a href="/account/orders/<%= o.id %>">#<%= o.id %></a></td>
+        <td><%= o.created_at.slice(0, 10) %></td>
+        <td><span class="status status-<%= o.status %>"><%= o.status %></span></td>
+        <td><%= formatPrice(o.total_minor, o.currency) %></td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+<% } %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,20 @@
+<%- include('../partials/header') %>
+<p><a href="/admin/orders">&larr; All orders</a></p>
+<h1>Order #<%= order.id %> <span class="status status-<%= order.status %>"><%= order.status %></span></h1>
+<p>Placed <%= order.created_at %> by <strong><%= order.customer_name %></strong> (<a href="mailto:<%= order.email %>"><%= order.email %></a>)</p>
+<%- include('../partials/order-detail', { order: order }) %>
+<% if (order.status !== 'pending') { %>
+<form method="post" action="/admin/orders/<%= order.id %>/status" class="form status-form">
+  <input type="hidden" name="_csrf" value="<%= csrf() %>">
+  <label>Update status
+    <select name="status">
+      <% ['paid', 'shipped', 'cancelled'].forEach(function (s) { %>
+        <option value="<%= s %>" <%= order.status === s ? 'selected' : '' %>><%= s %></option>
+      <% }) %>
+    </select>
+  </label>
+  <button class="btn">Save</button>
+</form>
+<p><small>Marking an order cancelled does not refund the customer. Issue refunds from your Stripe dashboard.</small></p>
+<% } %>
+<%- include('../partials/footer') %>

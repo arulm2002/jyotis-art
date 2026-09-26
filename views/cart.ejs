@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+<h1>Your cart</h1>
+<% if (!items.length) { %>
+  <p class="empty">Your cart is empty. <a href="/">Browse the gallery</a>.</p>
+<% } else { %>
+  <table class="table cart-table">
+    <thead><tr><th>Artwork</th><th>Price</th><th>Qty</th><th>Total</th><th></th></tr></thead>
+    <tbody>
+    <% items.forEach(function (i) { %>
+      <tr>
+        <td class="item"><img src="/uploads/<%= i.art.image %>" alt=""><a href="/art/<%= i.art.id %>"><%= i.art.title %></a></td>
+        <td><%= formatPrice(i.art.price_minor) %></td>
+        <td>
+          <% if (i.art.stock > 1) { %>
+          <form method="post" action="/cart/update" class="inline qty">
+            <input type="hidden" name="_csrf" value="<%= csrf() %>">
+            <input type="hidden" name="artworkId" value="<%= i.art.id %>">
+            <input type="number" name="quantity" value="<%= i.quantity %>" min="1" max="<%= i.art.stock %>">
+            <button class="link">Update</button>
+          </form>
+          <% } else { %>1<% } %>
+        </td>
+        <td><%= formatPrice(i.lineTotal) %></td>
+        <td>
+          <form method="post" action="/cart/remove" class="inline">
+            <input type="hidden" name="_csrf" value="<%= csrf() %>">
+            <input type="hidden" name="artworkId" value="<%= i.art.id %>">
+            <button class="link danger">Remove</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+  <div class="cart-summary">
+    <p class="total">Total: <strong><%= formatPrice(total) %></strong></p>
+    <% if (user) { %>
+      <form method="post" action="/checkout">
+        <input type="hidden" name="_csrf" value="<%= csrf() %>">
+        <button class="btn">Checkout securely</button>
+      </form>
+      <small>You'll enter your shipping address and card details on the secure payment page.</small>
+    <% } else { %>
+      <a class="btn" href="/login?next=/cart">Log in to checkout</a>
+      <small>New customer? <a href="/register?next=/cart">Create an account</a></small>
+    <% } %>
+  </div>
+<% } %>
+<%- include('partials/footer') %>

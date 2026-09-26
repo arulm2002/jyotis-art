@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title ? title + ' | ' : '' %><%= site.name %></title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/"><%= site.name %></a>
+    <nav class="nav">
+      <a href="/" class="<%= path === '/' ? 'active' : '' %>">Gallery</a>
+      <a href="/about" class="<%= path === '/about' ? 'active' : '' %>">About</a>
+      <% if (user && user.is_admin) { %><a href="/admin" class="<%= path.startsWith('/admin') ? 'active' : '' %>">Admin</a><% } %>
+      <% if (user) { %>
+        <a href="/account/orders">My orders</a>
+        <form method="post" action="/logout" class="inline">
+          <input type="hidden" name="_csrf" value="<%= csrf() %>">
+          <button class="link">Log out</button>
+        </form>
+      <% } else { %>
+        <a href="/login">Log in</a>
+      <% } %>
+      <a href="/cart" class="cart-link">Cart<% if (cartCount) { %> <span class="badge"><%= cartCount %></span><% } %></a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<% flash.forEach(function (f) { %>
+  <div class="flash flash-<%= f.type %>"><%= f.message %></div>
+<% }) %>
+<% if (typeof errors !== 'undefined' && errors && errors.length) { %>
+  <div class="flash flash-error"><ul><% errors.forEach(function (e) { %><li><%= e %></li><% }) %></ul></div>
+<% } %>

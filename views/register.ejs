@@ -1,0 +1,14 @@
+<%- include('partials/header') %>
+<div class="auth">
+  <h1>Create an account</h1>
+  <form method="post" action="/register" class="form">
+    <input type="hidden" name="_csrf" value="<%= csrf() %>">
+    <input type="hidden" name="next" value="<%= next %>">
+    <label>Name <input type="text" name="name" value="<%= form.name || '' %>" required autocomplete="name"></label>
+    <label>Email <input type="email" name="email" value="<%= form.email || '' %>" required autocomplete="email"></label>
+    <label>Password <input type="password" name="password" minlength="8" required autocomplete="new-password"><small>At least 8 characters</small></label>
+    <button class="btn">Create account</button>
+  </form>
+  <p>Already have an account? <a href="/login?next=<%= encodeURIComponent(next) %>">Log in</a></p>
+</div>
+<%- include('partials/footer') %>

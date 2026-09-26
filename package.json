@@ -1,0 +1,37 @@
+{
+  "name": "jyotis-art",
+  "version": "1.0.0",
+  "description": "Online gallery and shop for original artwork",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arulm2002/jyotis-art.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/arulm2002/jyotis-art/issues"
+  },
+  "homepage": "https://github.com/arulm2002/jyotis-art#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^13.0.3",
+    "dotenv": "^18.0.4",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
+    "multer": "^2.4.0",
+    "stripe": "^22.6.2"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "private": true
+}
